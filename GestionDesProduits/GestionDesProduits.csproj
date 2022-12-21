@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-GestionDesProduits-4DC57A2F-EE87-42FA-ACC9-6E01AEFDF2FD</UserSecretsId>
+    <UserSecretsId>GestionDesPromosDb</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
