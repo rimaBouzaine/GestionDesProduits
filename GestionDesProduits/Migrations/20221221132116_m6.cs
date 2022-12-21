@@ -2,9 +2,9 @@
 
 #nullable disable
 
-namespace GestionDesProduits.Data.Migrations
+namespace GestionDesProduits.Migrations
 {
-    public partial class m1 : Migration
+    public partial class m6 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

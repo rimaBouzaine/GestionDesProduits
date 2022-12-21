@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-GestionDesProduits-4DC57A2F-EE87-42FA-ACC9-6E01AEFDF2FD</UserSecretsId>
+    <UserSecretsId>GestionDesPromosDb</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,11 +18,4 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.11" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Data\Migrations\" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.10" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.10" />
-  </ItemGroup>
-
 </Project>

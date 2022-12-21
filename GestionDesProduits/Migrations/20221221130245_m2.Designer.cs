@@ -4,23 +4,148 @@ using GestionDesProduits.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace GestionDesProduits.Data.Migrations
+namespace GestionDesProduits.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221221130245_m2")]
+    partial class m2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.10")
+                .HasAnnotation("ProductVersion", "6.0.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("GestionDesProduits.Models.Categorie", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("NomCategorie")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categorie");
+                });
+
+            modelBuilder.Entity("GestionDesProduits.Models.LigneProduit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateDebutPromo")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateFinPromo")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("NomProduit")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProduitPromoId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("prixProduit")
+                        .HasColumnType("real");
+
+                    b.Property<float>("prixProduitEnPromo")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProduitPromoId");
+
+                    b.ToTable("LigneProduit");
+                });
+
+            modelBuilder.Entity("GestionDesProduits.Models.Magasin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("NomMagasin")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ville")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Magasin");
+                });
+
+            modelBuilder.Entity("GestionDesProduits.Models.ProduitPromo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CategorieId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MagasinId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NomProduit")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategorieId");
+
+                    b.HasIndex("MagasinId");
+
+                    b.ToTable("ProduitPromo");
+                });
+
+            modelBuilder.Entity("GestionDesProduits.Models.Stock", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("DescriptionStock")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NbrProduit")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProduitPromoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProduitPromoId");
+
+                    b.ToTable("Stock");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -224,6 +349,45 @@ namespace GestionDesProduits.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("GestionDesProduits.Models.LigneProduit", b =>
+                {
+                    b.HasOne("GestionDesProduits.Models.ProduitPromo", "ProduitPromo")
+                        .WithMany("LigneProduits")
+                        .HasForeignKey("ProduitPromoId");
+
+                    b.Navigation("ProduitPromo");
+                });
+
+            modelBuilder.Entity("GestionDesProduits.Models.ProduitPromo", b =>
+                {
+                    b.HasOne("GestionDesProduits.Models.Categorie", "Categories")
+                        .WithMany("ProduitPromos")
+                        .HasForeignKey("CategorieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GestionDesProduits.Models.Magasin", "Magasins")
+                        .WithMany("ProduitPromos")
+                        .HasForeignKey("MagasinId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Categories");
+
+                    b.Navigation("Magasins");
+                });
+
+            modelBuilder.Entity("GestionDesProduits.Models.Stock", b =>
+                {
+                    b.HasOne("GestionDesProduits.Models.ProduitPromo", "ProduitPromo")
+                        .WithMany("Stocks")
+                        .HasForeignKey("ProduitPromoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProduitPromo");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -273,6 +437,23 @@ namespace GestionDesProduits.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("GestionDesProduits.Models.Categorie", b =>
+                {
+                    b.Navigation("ProduitPromos");
+                });
+
+            modelBuilder.Entity("GestionDesProduits.Models.Magasin", b =>
+                {
+                    b.Navigation("ProduitPromos");
+                });
+
+            modelBuilder.Entity("GestionDesProduits.Models.ProduitPromo", b =>
+                {
+                    b.Navigation("LigneProduits");
+
+                    b.Navigation("Stocks");
                 });
 #pragma warning restore 612, 618
         }

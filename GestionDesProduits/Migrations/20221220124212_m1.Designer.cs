@@ -55,7 +55,7 @@ namespace GestionDesProduits.Migrations
                     b.Property<DateTime>("DateFinPromo")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IdProduitPromo")
+                    b.Property<int>("NomProduit")
                         .HasColumnType("int");
 
                     b.Property<int?>("ProduitPromoId")

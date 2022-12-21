@@ -9,6 +9,7 @@
         public int CategorieId { get; set; }
         public virtual Categorie? Categories { get; set; }
         public virtual ICollection<Stock>? Stocks { get; set; }
+        public float prixProduitEnPromo { get; set; }
         public virtual ICollection<LigneProduit>? LigneProduits { get; set; }
 
 

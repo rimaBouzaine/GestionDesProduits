@@ -14,7 +14,7 @@ namespace GestionDesProduits.Models
 
         public float prixProduit { get; set; }
         public float prixProduitEnPromo { get; set; }
-        public int IdProduitPromo { get; set; }
+        public string NomProduit { get; set; }
         public virtual ProduitPromo? ProduitPromo { get; set; }
 
     }

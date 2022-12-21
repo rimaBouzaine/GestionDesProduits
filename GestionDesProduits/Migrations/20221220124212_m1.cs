@@ -218,7 +218,7 @@ namespace GestionDesProduits.Migrations
                     DateFinPromo = table.Column<DateTime>(type: "datetime2", nullable: false),
                     prixProduit = table.Column<float>(type: "real", nullable: false),
                     prixProduitEnPromo = table.Column<float>(type: "real", nullable: false),
-                    IdProduitPromo = table.Column<int>(type: "int", nullable: false),
+                    NomProduit = table.Column<int>(type: "int", nullable: false),
                     ProduitPromoId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>

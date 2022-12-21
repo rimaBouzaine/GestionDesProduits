@@ -11,6 +11,11 @@ namespace GestionDesProduits.Data
         {
         }
         public DbSet<GestionDesProduits.Models.Magasin>? Magasin { get; set; }
+        public DbSet<GestionDesProduits.Models.Categorie>? Categorie { get; set; }
+        public DbSet<GestionDesProduits.Models.ProduitPromo>? ProduitPromo { get; set; }
+        public DbSet<GestionDesProduits.Models.LigneProduit>? LigneProduit { get; set; }
+        public DbSet<GestionDesProduits.Models.Stock>? Stock { get; set; }
+
 
     }
 }
