@@ -1,4 +1,4 @@
-﻿using GestionDesProduits.Data;
+using GestionDesProduits.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,4 +41,5 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
+app.Run();
 app.Run();
