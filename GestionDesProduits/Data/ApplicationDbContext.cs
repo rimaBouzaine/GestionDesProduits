@@ -11,5 +11,6 @@ namespace GestionDesProduits.Data
         {
         }
         public DbSet<GestionDesProduits.Models.Magasin>? Magasin { get; set; }
+        public DbSet<GestionDesProduits.Models.Categorie> Categorie { get; set; }
     }
 }
