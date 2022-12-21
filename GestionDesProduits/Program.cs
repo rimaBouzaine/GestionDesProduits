@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ﻿using GestionDesProduits.Data;
+=======
+using GestionDesProduits.Data;
+>>>>>>> e0ddb59534431cdb5a754c898f9f99707dce0b8d
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,4 +45,8 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
+<<<<<<< HEAD
 app.Run();
+=======
+app.Run();
+>>>>>>> e0ddb59534431cdb5a754c898f9f99707dce0b8d
