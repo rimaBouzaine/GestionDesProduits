@@ -10,11 +10,11 @@ using GestionDesProduits.Models;
 
 namespace GestionDesProduits.Controllers
 {
-    public class LigneProduitsController : Controller
+    public class LigneProduitController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public LigneProduitsController(ApplicationDbContext context)
+        public LigneProduitController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -22,7 +22,8 @@ namespace GestionDesProduits.Controllers
         // GET: LigneProduits
         public async Task<IActionResult> Index()
         {
-              return View(await _context.LigneProduit.ToListAsync());
+            var ApplicationDbContext = _context.LigneProduit.Include(e => e.ProduitPromo).ToListAsync();
+              return View(await ApplicationDbContext);
         }
 
         // GET: LigneProduits/Details/5
@@ -33,7 +34,7 @@ namespace GestionDesProduits.Controllers
                 return NotFound();
             }
 
-            var ligneProduit = await _context.LigneProduit
+            var ligneProduit = await _context.LigneProduit.Include(e => e.ProduitPromo)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (ligneProduit == null)
             {
@@ -46,7 +47,7 @@ namespace GestionDesProduits.Controllers
         // GET: LigneProduits/Create
         public IActionResult Create()
         {
-            ViewData["NomProduit"] = new SelectList(_context.ProduitPromo, "Id", "NomProduit");
+            ViewData["ProduitPromoId"] = new SelectList(_context.ProduitPromo, "Id", "NomProduit");
             return View();
         }
 
@@ -55,7 +56,7 @@ namespace GestionDesProduits.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,DateDebutPromo,DateFinPromo,prixProduit,prixProduitEnPromo,NomProduit")] LigneProduit ligneProduit)
+        public async Task<IActionResult> Create([Bind("Id,DateDebutPromo,DateFinPromo,prixProduit,prixProduitEnPromo,ProduitPromoId")] LigneProduit ligneProduit)
         {
             if (ModelState.IsValid)
             {
@@ -63,7 +64,7 @@ namespace GestionDesProduits.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["NomProduit"] = new SelectList(_context.ProduitPromo, "Id", "NomProduit", ligneProduit.NomProduit);
+            ViewData["ProduitPromoId"] = new SelectList(_context.ProduitPromo, "Id", "NomProduit", ligneProduit.ProduitPromoId);
             return View(ligneProduit);
         }
 
@@ -80,7 +81,7 @@ namespace GestionDesProduits.Controllers
             {
                 return NotFound();
             }
-            ViewData["NomProduit"] = new SelectList(_context.ProduitPromo, "Id", "NomProduit", ligneProduit.NomProduit);
+            ViewData["ProduitPromoId"] = new SelectList(_context.ProduitPromo, "Id", "NomProduit", ligneProduit.ProduitPromoId);
             return View(ligneProduit);
         }
 
@@ -89,7 +90,7 @@ namespace GestionDesProduits.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,DateDebutPromo,DateFinPromo,prixProduit,prixProduitEnPromo,NomProduit")] LigneProduit ligneProduit)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,DateDebutPromo,DateFinPromo,prixProduit,prixProduitEnPromo,ProduitPromoId")] LigneProduit ligneProduit)
         {
             if (id != ligneProduit.Id)
             {
@@ -116,7 +117,7 @@ namespace GestionDesProduits.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["NomProduit"] = new SelectList(_context.ProduitPromo, "Id", "NomProduit", ligneProduit.NomProduit);
+            ViewData["ProduitPromoId"] = new SelectList(_context.ProduitPromo, "Id", "NomProduit", ligneProduit.ProduitPromoId);
             return View(ligneProduit);
         }
 
@@ -134,7 +135,7 @@ namespace GestionDesProduits.Controllers
             {
                 return NotFound();
             }
-            ViewData["NomProduit"] = new SelectList(_context.ProduitPromo, "Id", "NomProduit", ligneProduit.NomProduit);
+            ViewData["ProduitPromoId"] = new SelectList(_context.ProduitPromo, "Id", "NomProduit", ligneProduit.ProduitPromoId);
             return View(ligneProduit);
         }
 

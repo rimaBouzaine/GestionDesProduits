@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestionDesProduits.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221221130245_m2")]
+    [Migration("20221225191505_m2")]
     partial class m2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,10 +55,7 @@ namespace GestionDesProduits.Migrations
                     b.Property<DateTime>("DateFinPromo")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("NomProduit")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ProduitPromoId")
+                    b.Property<int>("ProduitPromoId")
                         .HasColumnType("int");
 
                     b.Property<float>("prixProduit")
@@ -112,6 +109,9 @@ namespace GestionDesProduits.Migrations
                     b.Property<string>("NomProduit")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("prixProduitEnPromo")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
@@ -353,7 +353,9 @@ namespace GestionDesProduits.Migrations
                 {
                     b.HasOne("GestionDesProduits.Models.ProduitPromo", "ProduitPromo")
                         .WithMany("LigneProduits")
-                        .HasForeignKey("ProduitPromoId");
+                        .HasForeignKey("ProduitPromoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ProduitPromo");
                 });

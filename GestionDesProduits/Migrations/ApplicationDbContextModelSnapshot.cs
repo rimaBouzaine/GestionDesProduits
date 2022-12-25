@@ -53,11 +53,7 @@ namespace GestionDesProduits.Migrations
                     b.Property<DateTime>("DateFinPromo")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("NomProduit")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ProduitPromoId")
+                    b.Property<int>("ProduitPromoId")
                         .HasColumnType("int");
 
                     b.Property<float>("prixProduit")
@@ -355,7 +351,9 @@ namespace GestionDesProduits.Migrations
                 {
                     b.HasOne("GestionDesProduits.Models.ProduitPromo", "ProduitPromo")
                         .WithMany("LigneProduits")
-                        .HasForeignKey("ProduitPromoId");
+                        .HasForeignKey("ProduitPromoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ProduitPromo");
                 });
