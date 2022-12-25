@@ -189,7 +189,8 @@ namespace GestionDesProduits.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NomProduit = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MagasinId = table.Column<int>(type: "int", nullable: false),
-                    CategorieId = table.Column<int>(type: "int", nullable: false)
+                    CategorieId = table.Column<int>(type: "int", nullable: false),
+                    prixProduitEnPromo = table.Column<float>(type: "real", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -218,7 +219,11 @@ namespace GestionDesProduits.Migrations
                     DateFinPromo = table.Column<DateTime>(type: "datetime2", nullable: false),
                     prixProduit = table.Column<float>(type: "real", nullable: false),
                     prixProduitEnPromo = table.Column<float>(type: "real", nullable: false),
+<<<<<<< HEAD:GestionDesProduits/Migrations/20221220124212_m1.cs
                     NomProduit = table.Column<int>(type: "int", nullable: false),
+=======
+                    NomProduit = table.Column<string>(type: "nvarchar(max)", nullable: false),
+>>>>>>> c3d38b3e3ec13745f5837ac46b9d145f7df37476:GestionDesProduits/Migrations/20221225182508_m1.cs
                     ProduitPromoId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>

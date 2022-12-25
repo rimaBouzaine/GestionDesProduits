@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestionDesProduits.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221221132116_m6")]
-    partial class m6
+    [Migration("20221225182508_m1")]
+    partial class m1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -55,8 +55,14 @@ namespace GestionDesProduits.Migrations
                     b.Property<DateTime>("DateFinPromo")
                         .HasColumnType("datetime2");
 
+<<<<<<< HEAD:GestionDesProduits/Migrations/20221220124212_m1.Designer.cs
                     b.Property<int>("NomProduit")
                         .HasColumnType("int");
+=======
+                    b.Property<string>("NomProduit")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+>>>>>>> c3d38b3e3ec13745f5837ac46b9d145f7df37476:GestionDesProduits/Migrations/20221225182508_m1.Designer.cs
 
                     b.Property<int?>("ProduitPromoId")
                         .HasColumnType("int");
@@ -112,6 +118,9 @@ namespace GestionDesProduits.Migrations
                     b.Property<string>("NomProduit")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("prixProduitEnPromo")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 

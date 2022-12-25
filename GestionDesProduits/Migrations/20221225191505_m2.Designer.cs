@@ -12,7 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestionDesProduits.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
+<<<<<<< HEAD:GestionDesProduits/Migrations/20221221130245_m2.Designer.cs
     [Migration("20221221130245_m2")]
+=======
+    [Migration("20221225191505_m2")]
+>>>>>>> c3d38b3e3ec13745f5837ac46b9d145f7df37476:GestionDesProduits/Migrations/20221225191505_m2.Designer.cs
     partial class m2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,10 +59,14 @@ namespace GestionDesProduits.Migrations
                     b.Property<DateTime>("DateFinPromo")
                         .HasColumnType("datetime2");
 
+<<<<<<< HEAD:GestionDesProduits/Migrations/20221221130245_m2.Designer.cs
                     b.Property<int>("NomProduit")
                         .HasColumnType("int");
 
                     b.Property<int?>("ProduitPromoId")
+=======
+                    b.Property<int>("ProduitPromoId")
+>>>>>>> c3d38b3e3ec13745f5837ac46b9d145f7df37476:GestionDesProduits/Migrations/20221225191505_m2.Designer.cs
                         .HasColumnType("int");
 
                     b.Property<float>("prixProduit")
@@ -112,6 +120,9 @@ namespace GestionDesProduits.Migrations
                     b.Property<string>("NomProduit")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("prixProduitEnPromo")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
@@ -353,7 +364,9 @@ namespace GestionDesProduits.Migrations
                 {
                     b.HasOne("GestionDesProduits.Models.ProduitPromo", "ProduitPromo")
                         .WithMany("LigneProduits")
-                        .HasForeignKey("ProduitPromoId");
+                        .HasForeignKey("ProduitPromoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ProduitPromo");
                 });

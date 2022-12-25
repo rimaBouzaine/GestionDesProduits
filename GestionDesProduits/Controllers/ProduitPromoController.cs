@@ -10,11 +10,11 @@ using GestionDesProduits.Models;
 
 namespace GestionDesProduits.Controllers
 {
-    public class ProduitPromoesController : Controller
+    public class ProduitPromoController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ProduitPromoesController(ApplicationDbContext context)
+        public ProduitPromoController(ApplicationDbContext context)
         {
             _context = context;
         }
