@@ -182,77 +182,34 @@ namespace GestionDesProduits.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProduitPromo",
+                name: "Produits",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NomProduit = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MagasinId = table.Column<int>(type: "int", nullable: false),
                     CategorieId = table.Column<int>(type: "int", nullable: false),
+                    DescriptionStock = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateDebutPromo = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateFinPromo = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    prixProduit = table.Column<float>(type: "real", nullable: false),
                     prixProduitEnPromo = table.Column<float>(type: "real", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProduitPromo", x => x.Id);
+                    table.PrimaryKey("PK_Produits", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProduitPromo_Categorie_CategorieId",
+                        name: "FK_Produits_Categorie_CategorieId",
                         column: x => x.CategorieId,
                         principalTable: "Categorie",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProduitPromo_Magasin_MagasinId",
+                        name: "FK_Produits_Magasin_MagasinId",
                         column: x => x.MagasinId,
                         principalTable: "Magasin",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "LigneProduit",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DateDebutPromo = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateFinPromo = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    prixProduit = table.Column<float>(type: "real", nullable: false),
-                    prixProduitEnPromo = table.Column<float>(type: "real", nullable: false),
-<<<<<<< HEAD:GestionDesProduits/Migrations/20221220124212_m1.cs
-                    NomProduit = table.Column<int>(type: "int", nullable: false),
-=======
-                    NomProduit = table.Column<string>(type: "nvarchar(max)", nullable: false),
->>>>>>> c3d38b3e3ec13745f5837ac46b9d145f7df37476:GestionDesProduits/Migrations/20221225182508_m1.cs
-                    ProduitPromoId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LigneProduit", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_LigneProduit_ProduitPromo_ProduitPromoId",
-                        column: x => x.ProduitPromoId,
-                        principalTable: "ProduitPromo",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Stock",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NbrProduit = table.Column<int>(type: "int", nullable: false),
-                    DescriptionStock = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProduitPromoId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Stock", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Stock_ProduitPromo_ProduitPromoId",
-                        column: x => x.ProduitPromoId,
-                        principalTable: "ProduitPromo",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -297,24 +254,14 @@ namespace GestionDesProduits.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LigneProduit_ProduitPromoId",
-                table: "LigneProduit",
-                column: "ProduitPromoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProduitPromo_CategorieId",
-                table: "ProduitPromo",
+                name: "IX_Produits_CategorieId",
+                table: "Produits",
                 column: "CategorieId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProduitPromo_MagasinId",
-                table: "ProduitPromo",
+                name: "IX_Produits_MagasinId",
+                table: "Produits",
                 column: "MagasinId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Stock_ProduitPromoId",
-                table: "Stock",
-                column: "ProduitPromoId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -335,19 +282,13 @@ namespace GestionDesProduits.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "LigneProduit");
-
-            migrationBuilder.DropTable(
-                name: "Stock");
+                name: "Produits");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "ProduitPromo");
 
             migrationBuilder.DropTable(
                 name: "Categorie");

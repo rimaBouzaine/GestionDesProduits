@@ -7,7 +7,7 @@
             public string NomMagasin { get; set; }
             public string ville { get; set; }
         public string NomParVille { get { return NomMagasin + " " + ville; } }
-        public virtual ICollection<ProduitPromo>? ProduitPromos { get; set; }
+        public virtual ICollection<Produits>? Produits { get; set; }
 
 
 

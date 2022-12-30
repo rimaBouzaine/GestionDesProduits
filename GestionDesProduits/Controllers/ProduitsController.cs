@@ -10,43 +10,43 @@ using GestionDesProduits.Models;
 
 namespace GestionDesProduits.Controllers
 {
-    public class ProduitPromoController : Controller
+    public class ProduitsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ProduitPromoController(ApplicationDbContext context)
+        public ProduitsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: ProduitPromoes
+        // GET: Produits
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.ProduitPromo.Include(p => p.Categories).Include(p => p.Magasins);
+            var applicationDbContext = _context.Produits.Include(p => p.Categories).Include(p => p.Magasins);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: ProduitPromoes/Details/5
+        // GET: Produits/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.ProduitPromo == null)
+            if (id == null || _context.Produits == null)
             {
                 return NotFound();
             }
 
-            var produitPromo = await _context.ProduitPromo
+            var produits = await _context.Produits
                 .Include(p => p.Categories)
                 .Include(p => p.Magasins)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (produitPromo == null)
+            if (produits == null)
             {
                 return NotFound();
             }
 
-            return View(produitPromo);
+            return View(produits);
         }
 
-        // GET: ProduitPromoes/Create
+        // GET: Produits/Create
         public IActionResult Create()
         {
             ViewData["CategorieId"] = new SelectList(_context.Categorie, "Id", "NomCategorie");
@@ -54,50 +54,50 @@ namespace GestionDesProduits.Controllers
             return View();
         }
 
-        // POST: ProduitPromoes/Create
+        // POST: Produits/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,NomProduit,MagasinId,CategorieId")] ProduitPromo produitPromo)
+        public async Task<IActionResult> Create([Bind("Id,ImageUrl,NomProduit,MagasinId,CategorieId,DescriptionStock,DateDebutPromo,DateFinPromo,prixProduit,prixProduitEnPromo")] Produits produits)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(produitPromo);
+                _context.Add(produits);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategorieId"] = new SelectList(_context.Categorie, "Id", "NomCategorie", produitPromo.CategorieId);
-            ViewData["MagasinId"] = new SelectList(_context.Magasin, "Id", "NomParVille", produitPromo.MagasinId);
-            return View(produitPromo);
+            ViewData["CategorieId"] = new SelectList(_context.Categorie, "Id", "NomCategorie", produits.CategorieId);
+            ViewData["MagasinId"] = new SelectList(_context.Magasin, "Id", "NomParVille", produits.MagasinId);
+            return View(produits);
         }
 
-        // GET: ProduitPromoes/Edit/5
+        // GET: Produits/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.ProduitPromo == null)
+            if (id == null || _context.Produits == null)
             {
                 return NotFound();
             }
 
-            var produitPromo = await _context.ProduitPromo.FindAsync(id);
-            if (produitPromo == null)
+            var produits = await _context.Produits.FindAsync(id);
+            if (produits == null)
             {
                 return NotFound();
             }
-            ViewData["CategorieId"] = new SelectList(_context.Categorie, "Id", "NomCategorie", produitPromo.CategorieId);
-            ViewData["MagasinId"] = new SelectList(_context.Magasin, "Id", "NomParVille", produitPromo.MagasinId);
-            return View(produitPromo);
+            ViewData["CategorieId"] = new SelectList(_context.Categorie, "Id", "NomCategorie", produits.CategorieId);
+            ViewData["MagasinId"] = new SelectList(_context.Magasin, "Id", "NomParVille", produits.MagasinId);
+            return View(produits);
         }
 
-        // POST: ProduitPromoes/Edit/5
+        // POST: Produits/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,NomProduit,MagasinId,CategorieId")] ProduitPromo produitPromo)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ImageUrl,NomProduit,MagasinId,CategorieId,DescriptionStock,DateDebutPromo,DateFinPromo,prixProduit,prixProduitEnPromo")] Produits produits)
         {
-            if (id != produitPromo.Id)
+            if (id != produits.Id)
             {
                 return NotFound();
             }
@@ -106,12 +106,12 @@ namespace GestionDesProduits.Controllers
             {
                 try
                 {
-                    _context.Update(produitPromo);
+                    _context.Update(produits);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProduitPromoExists(produitPromo.Id))
+                    if (!ProduitsExists(produits.Id))
                     {
                         return NotFound();
                     }
@@ -122,53 +122,53 @@ namespace GestionDesProduits.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategorieId"] = new SelectList(_context.Categorie, "Id", "NomCategorie", produitPromo.CategorieId);
-            ViewData["MagasinId"] = new SelectList(_context.Magasin, "Id", "NomParVille", produitPromo.MagasinId);
-            return View(produitPromo);
+            ViewData["CategorieId"] = new SelectList(_context.Categorie, "Id", "NomCategorie", produits.CategorieId);
+            ViewData["MagasinId"] = new SelectList(_context.Magasin, "Id", "NomParVille", produits.MagasinId);
+            return View(produits);
         }
 
-        // GET: ProduitPromoes/Delete/5
+        // GET: Produits/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.ProduitPromo == null)
+            if (id == null || _context.Produits == null)
             {
                 return NotFound();
             }
 
-            var produitPromo = await _context.ProduitPromo
+            var produits = await _context.Produits
                 .Include(p => p.Categories)
                 .Include(p => p.Magasins)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (produitPromo == null)
+            if (produits == null)
             {
                 return NotFound();
             }
 
-            return View(produitPromo);
+            return View(produits);
         }
 
-        // POST: ProduitPromoes/Delete/5
+        // POST: Produits/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.ProduitPromo == null)
+            if (_context.Produits == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.ProduitPromo'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.Produits'  is null.");
             }
-            var produitPromo = await _context.ProduitPromo.FindAsync(id);
-            if (produitPromo != null)
+            var produits = await _context.Produits.FindAsync(id);
+            if (produits != null)
             {
-                _context.ProduitPromo.Remove(produitPromo);
+                _context.Produits.Remove(produits);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProduitPromoExists(int id)
+        private bool ProduitsExists(int id)
         {
-          return _context.ProduitPromo.Any(e => e.Id == id);
+          return _context.Produits.Any(e => e.Id == id);
         }
     }
 }

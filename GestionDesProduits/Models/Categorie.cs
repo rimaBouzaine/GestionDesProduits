@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public string NomCategorie { get; set; }
-        public virtual ICollection<ProduitPromo>? ProduitPromos { get; set; }
+        public virtual ICollection<Produits>? Produits { get; set; }
 
     }
 }

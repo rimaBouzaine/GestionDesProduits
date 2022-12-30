@@ -39,44 +39,6 @@ namespace GestionDesProduits.Migrations
                     b.ToTable("Categorie");
                 });
 
-            modelBuilder.Entity("GestionDesProduits.Models.LigneProduit", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DateDebutPromo")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateFinPromo")
-                        .HasColumnType("datetime2");
-
-<<<<<<< HEAD
-                    b.Property<string>("NomProduit")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ProduitPromoId")
-=======
-                    b.Property<int>("ProduitPromoId")
->>>>>>> c3d38b3e3ec13745f5837ac46b9d145f7df37476
-                        .HasColumnType("int");
-
-                    b.Property<float>("prixProduit")
-                        .HasColumnType("real");
-
-                    b.Property<float>("prixProduitEnPromo")
-                        .HasColumnType("real");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProduitPromoId");
-
-                    b.ToTable("LigneProduit");
-                });
-
             modelBuilder.Entity("GestionDesProduits.Models.Magasin", b =>
                 {
                     b.Property<int>("Id")
@@ -98,7 +60,7 @@ namespace GestionDesProduits.Migrations
                     b.ToTable("Magasin");
                 });
 
-            modelBuilder.Entity("GestionDesProduits.Models.ProduitPromo", b =>
+            modelBuilder.Entity("GestionDesProduits.Models.Produits", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -109,12 +71,28 @@ namespace GestionDesProduits.Migrations
                     b.Property<int>("CategorieId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("DateDebutPromo")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateFinPromo")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DescriptionStock")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("MagasinId")
                         .HasColumnType("int");
 
                     b.Property<string>("NomProduit")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("prixProduit")
+                        .HasColumnType("real");
 
                     b.Property<float>("prixProduitEnPromo")
                         .HasColumnType("real");
@@ -125,32 +103,7 @@ namespace GestionDesProduits.Migrations
 
                     b.HasIndex("MagasinId");
 
-                    b.ToTable("ProduitPromo");
-                });
-
-            modelBuilder.Entity("GestionDesProduits.Models.Stock", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("DescriptionStock")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("NbrProduit")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProduitPromoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProduitPromoId");
-
-                    b.ToTable("Stock");
+                    b.ToTable("Produits");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -355,27 +308,16 @@ namespace GestionDesProduits.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("GestionDesProduits.Models.LigneProduit", b =>
-                {
-                    b.HasOne("GestionDesProduits.Models.ProduitPromo", "ProduitPromo")
-                        .WithMany("LigneProduits")
-                        .HasForeignKey("ProduitPromoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ProduitPromo");
-                });
-
-            modelBuilder.Entity("GestionDesProduits.Models.ProduitPromo", b =>
+            modelBuilder.Entity("GestionDesProduits.Models.Produits", b =>
                 {
                     b.HasOne("GestionDesProduits.Models.Categorie", "Categories")
-                        .WithMany("ProduitPromos")
+                        .WithMany("Produits")
                         .HasForeignKey("CategorieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("GestionDesProduits.Models.Magasin", "Magasins")
-                        .WithMany("ProduitPromos")
+                        .WithMany("Produits")
                         .HasForeignKey("MagasinId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -383,17 +325,6 @@ namespace GestionDesProduits.Migrations
                     b.Navigation("Categories");
 
                     b.Navigation("Magasins");
-                });
-
-            modelBuilder.Entity("GestionDesProduits.Models.Stock", b =>
-                {
-                    b.HasOne("GestionDesProduits.Models.ProduitPromo", "ProduitPromo")
-                        .WithMany("Stocks")
-                        .HasForeignKey("ProduitPromoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ProduitPromo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -449,19 +380,12 @@ namespace GestionDesProduits.Migrations
 
             modelBuilder.Entity("GestionDesProduits.Models.Categorie", b =>
                 {
-                    b.Navigation("ProduitPromos");
+                    b.Navigation("Produits");
                 });
 
             modelBuilder.Entity("GestionDesProduits.Models.Magasin", b =>
                 {
-                    b.Navigation("ProduitPromos");
-                });
-
-            modelBuilder.Entity("GestionDesProduits.Models.ProduitPromo", b =>
-                {
-                    b.Navigation("LigneProduits");
-
-                    b.Navigation("Stocks");
+                    b.Navigation("Produits");
                 });
 #pragma warning restore 612, 618
         }
