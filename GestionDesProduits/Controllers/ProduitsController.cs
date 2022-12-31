@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GestionDesProduits.Data;
 using GestionDesProduits.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GestionDesProduits.Controllers
 {
@@ -24,6 +25,20 @@ namespace GestionDesProduits.Controllers
         {
             var applicationDbContext = _context.Produits.Include(p => p.Categories).Include(p => p.Magasins);
             return View(await applicationDbContext.ToListAsync());
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> Filter(string searchString)
+        {
+            var toutLesProduits = await _context.Produits.Include(m => m.Categories).Include(m => m.Magasins).ToListAsync();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                var filteredResult = toutLesProduits.Where(n => n.NomProduit.ToLower().Contains(searchString.ToLower()) || n.Categories.NomCategorie.ToLower().Contains(searchString.ToLower())).ToList();
+                return View("Index", filteredResult);
+            }
+
+            return View("Index", toutLesProduits);
         }
 
         // GET: Produits/Details/5
