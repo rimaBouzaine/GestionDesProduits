@@ -192,10 +192,10 @@ namespace GestionDesProduits.Migrations
                     MagasinId = table.Column<int>(type: "int", nullable: false),
                     CategorieId = table.Column<int>(type: "int", nullable: false),
                     DescriptionStock = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateDebutPromo = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateFinPromo = table.Column<DateTime>(type: "datetime2", nullable: false),
                     prixProduit = table.Column<float>(type: "real", nullable: false),
-                    prixProduitEnPromo = table.Column<float>(type: "real", nullable: false)
+                    prixProduitEnPromo = table.Column<float>(type: "real", nullable: false),
+                    DateDebutPromo = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateFinPromo = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {

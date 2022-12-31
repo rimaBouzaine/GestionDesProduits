@@ -38,6 +38,7 @@
                 <input asp-for="DescriptionStock" class="form-control" />
                 <span asp-validation-for="DescriptionStock" class="text-danger"></span>
             </div>
+            <h1 style="color: #e35b4b;font-size: 17px;">@ViewBag.InvalidDate</h1>
             <div class="form-group">
                 <label asp-for="DateDebutPromo" class="control-label"></label>
                 <input asp-for="DateDebutPromo" class="form-control" />
@@ -48,6 +49,7 @@
                 <input asp-for="DateFinPromo" class="form-control" />
                 <span asp-validation-for="DateFinPromo" class="text-danger"></span>
             </div>
+            <h1 style="color: #e35b4b;font-size: 17px;">@ViewBag.InvalidPrix</h1>
             <div class="form-group">
                 <label asp-for="prixProduit" class="control-label"></label>
                 <input asp-for="prixProduit" class="form-control" />

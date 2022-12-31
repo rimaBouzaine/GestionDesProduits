@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GestionDesProduits.Data;
 using GestionDesProduits.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GestionDesProduits.Controllers
 {
@@ -24,6 +25,20 @@ namespace GestionDesProduits.Controllers
         {
             var applicationDbContext = _context.Produits.Include(p => p.Categories).Include(p => p.Magasins);
             return View(await applicationDbContext.ToListAsync());
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> Filter(string searchString)
+        {
+            var toutLesProduits = await _context.Produits.Include(m => m.Categories).Include(m => m.Magasins).ToListAsync();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                var filteredResult = toutLesProduits.Where(n => n.NomProduit.ToLower().Contains(searchString.ToLower()) || n.Categories.NomCategorie.ToLower().Contains(searchString.ToLower())).ToList();
+                return View("Index", filteredResult);
+            }
+
+            return View("Index", toutLesProduits);
         }
 
         // GET: Produits/Details/5
@@ -45,7 +60,7 @@ namespace GestionDesProduits.Controllers
 
             return View(produits);
         }
-
+        //[Authorize(Roles ="SuperAdmin")]
         // GET: Produits/Create
         public IActionResult Create()
         {
@@ -61,12 +76,28 @@ namespace GestionDesProduits.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ImageUrl,NomProduit,MagasinId,CategorieId,DescriptionStock,DateDebutPromo,DateFinPromo,prixProduit,prixProduitEnPromo")] Produits produits)
         {
+            
             if (ModelState.IsValid)
             {
-                _context.Add(produits);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                Boolean test = true;
+                if(produits.prixProduitEnPromo >= produits.prixProduit)
+                {
+                    test = false;
+                    ViewBag.InvalidPrix = "Le prix est invalide";
+                }
+                if (produits.DateDebutPromo >= produits.DateFinPromo)
+                {
+                    test = false;
+                    ViewBag.InvalidDate = "La date est invalide";
+                }
+                if(test)
+                {
+                    _context.Add(produits);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
+
             ViewData["CategorieId"] = new SelectList(_context.Categorie, "Id", "NomCategorie", produits.CategorieId);
             ViewData["MagasinId"] = new SelectList(_context.Magasin, "Id", "NomParVille", produits.MagasinId);
             return View(produits);
@@ -104,23 +135,40 @@ namespace GestionDesProduits.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(produits);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProduitsExists(produits.Id))
+                
+                    Boolean test = true;
+                    if (produits.prixProduitEnPromo >= produits.prixProduit)
                     {
-                        return NotFound();
+                        test = false;
+                        ViewBag.InvalidPrix = "Le prix est invalide";
                     }
-                    else
+                    if (produits.DateDebutPromo >= produits.DateFinPromo)
                     {
-                        throw;
+                        test = false;
+                        ViewBag.InvalidDate = "La date est invalide";
                     }
-                }
-                return RedirectToAction(nameof(Index));
+                    if (test)
+                    {
+                        try
+                        {
+                                 _context.Update(produits);
+                                 await _context.SaveChangesAsync();
+                        }
+                        catch (DbUpdateConcurrencyException)
+                        {
+                                if (!ProduitsExists(produits.Id))
+                                {
+                                    return NotFound();
+                                }
+                                else
+                                {
+                                    throw;
+                                }
+                        }
+
+                        return RedirectToAction(nameof(Index));
+                    }
+                
             }
             ViewData["CategorieId"] = new SelectList(_context.Categorie, "Id", "NomCategorie", produits.CategorieId);
             ViewData["MagasinId"] = new SelectList(_context.Magasin, "Id", "NomParVille", produits.MagasinId);
