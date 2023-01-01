@@ -74,10 +74,20 @@ namespace GestionDesProduits.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,ImageUrl,NomProduit,MagasinId,CategorieId,DescriptionStock,DateDebutPromo,DateFinPromo,prixProduit,prixProduitEnPromo")] Produits produits)
         {
+
+            //int result = DateTime.Compare(produits.DateDebutPromo, produits.DateFinPromo);
+            //if (result >= 0)
+
+            //    return ValidationProblem();
+
+
             if (ModelState.IsValid)
             {
+               
+
                 _context.Add(produits);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
