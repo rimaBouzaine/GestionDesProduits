@@ -60,7 +60,7 @@ namespace GestionDesProduits.Controllers
 
             return View(produits);
         }
-
+        //[Authorize(Roles ="SuperAdmin")]
         // GET: Produits/Create
         public IActionResult Create()
         {
@@ -77,21 +77,28 @@ namespace GestionDesProduits.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,ImageUrl,NomProduit,MagasinId,CategorieId,DescriptionStock,DateDebutPromo,DateFinPromo,prixProduit,prixProduitEnPromo")] Produits produits)
         {
-
-            //int result = DateTime.Compare(produits.DateDebutPromo, produits.DateFinPromo);
-            //if (result >= 0)
-
-            //    return ValidationProblem();
-
-
+            
             if (ModelState.IsValid)
             {
-               
-
-                _context.Add(produits);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                Boolean test = true;
+                if(produits.prixProduitEnPromo >= produits.prixProduit)
+                {
+                    test = false;
+                    ViewBag.InvalidPrix = "Le prix est invalide";
+                }
+                if (produits.DateDebutPromo >= produits.DateFinPromo)
+                {
+                    test = false;
+                    ViewBag.InvalidDate = "La date est invalide";
+                }
+                if(test)
+                {
+                    _context.Add(produits);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
+
             ViewData["CategorieId"] = new SelectList(_context.Categorie, "Id", "NomCategorie", produits.CategorieId);
             ViewData["MagasinId"] = new SelectList(_context.Magasin, "Id", "NomParVille", produits.MagasinId);
             return View(produits);
@@ -129,23 +136,40 @@ namespace GestionDesProduits.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(produits);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProduitsExists(produits.Id))
+                
+                    Boolean test = true;
+                    if (produits.prixProduitEnPromo >= produits.prixProduit)
                     {
-                        return NotFound();
+                        test = false;
+                        ViewBag.InvalidPrix = "Le prix est invalide";
                     }
-                    else
+                    if (produits.DateDebutPromo >= produits.DateFinPromo)
                     {
-                        throw;
+                        test = false;
+                        ViewBag.InvalidDate = "La date est invalide";
                     }
-                }
-                return RedirectToAction(nameof(Index));
+                    if (test)
+                    {
+                        try
+                        {
+                                 _context.Update(produits);
+                                 await _context.SaveChangesAsync();
+                        }
+                        catch (DbUpdateConcurrencyException)
+                        {
+                                if (!ProduitsExists(produits.Id))
+                                {
+                                    return NotFound();
+                                }
+                                else
+                                {
+                                    throw;
+                                }
+                        }
+
+                        return RedirectToAction(nameof(Index));
+                    }
+                
             }
             ViewData["CategorieId"] = new SelectList(_context.Categorie, "Id", "NomCategorie", produits.CategorieId);
             ViewData["MagasinId"] = new SelectList(_context.Magasin, "Id", "NomParVille", produits.MagasinId);
