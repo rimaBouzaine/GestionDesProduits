@@ -5,25 +5,38 @@
 }
 
 
-<section class="py-5">
-    <div class="container px-4 px-lg-5 mt-5">
+
+   
         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
         {
             <p>
                 <a class="btn btn-outline-primary" asp-action="Create">Create New</a>
             </p>
         }   
-            <form class="form-inline my-2 my-lg-0" asp-controller="Produits" asp-action="Filter" style="padding-right: 25px; ">
-            <div class="col">
-                    <input name="searchString" type="text" class="form-control" placeholder="chercher un produit spécifique" aria-label="Recipient's username" aria-describedby="button-addon2">
-                </div>
-            <div class="col">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">chercher<i class="bi bi-search"></i></button>
+            <form class="form-inline my-2 my-lg-0" asp-controller="Produits" asp-action="Filter" style="padding-right: 10px; margin-bottom :25px">
+    <div class="container" style="margin-bottom: 20px">
+                    <div class="row">
+                     <div class="col-sm-8">
+                        <input name="searchString" type="text" class="form-control" placeholder="chercher un produit spécifique" aria-label="Recipient's username" aria-describedby="button-addon2">
+                    </div>
+                    <div class="col-sm-4">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">chercher<i class="bi bi-search"></i></button>
+                    </div>
+        </div>
                 </div>
             </form>
-        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            <div class="col mb-5" >
-                @foreach (var item in Model) {
+                <header class="bg-dark py-5"style=" padding-top: 1rem!important;
+            padding-bottom: 1rem!important; margin-bottom:20px">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h2 class="display-4 fw-bolder">Profitez de nos promotions ! </h2>
+            </div>
+        </div>
+    </header>
+            <div class="container">
+                <div class="row">
+                      @foreach (var item in Model) {
+                    <div class="col-sm-4">
                 <div class="card h-50">
                     <!-- Product image-->
                         <img src="@item.ImageUrl" class="card-img-top"  alt="...">
@@ -33,9 +46,23 @@
                             <!-- Product name-->
                                 <h5 class="fw-bolder">@Html.DisplayFor(modelItem => item.NomProduit)</h5>
                             <!-- Product price-->
-                            @Html.DisplayFor(modelItem => item.prixProduit)
-                                @Html.DisplayFor(modelItem => item.prixProduitEnPromo)
                         </div>
+                        
+                            <div style="display:flex">
+                            
+                                <div class="text-align:left">
+                                    Prix initial :
+                                </div>
+                            
+                                <p style="text-decoration: line-through;text-align:end">  @Html.DisplayFor(modelItem => item.prixProduit) DT</p>
+                            </div>
+
+                            <div style="display:flex">
+                                Prix promotion : <p style="text-align:end">  @Html.DisplayFor(modelItem => item.prixProduitEnPromo) DT </p>
+                            </div>  
+                          
+                                
+                        
                     </div>
                     <!-- Product actions-->
                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
@@ -44,14 +71,14 @@
                         </div>
                     </div>
                 </div>
-                }
-            </div>
+                
+            </div>}
         </div>
     </div>
-</section>
 
 
 
+@*
 
 <!--*********************************************************************************************************************************************-->
  @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
@@ -140,3 +167,43 @@
 }
     </tbody>
 </table>
+
+
+
+
+
+
+
+
+
+
+
+<div class="container">
+    <div class="row">
+          @foreach (var item in Model) {
+        <div class="col-sm-4">
+
+            <div class="card" style="width: 18rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>
+
+
+
+*@
+
+
+
+
+
+
+
+
