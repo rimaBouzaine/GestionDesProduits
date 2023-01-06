@@ -27,6 +27,7 @@ namespace GestionDesProduits.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
+
         [AllowAnonymous]
         public async Task<IActionResult> Filter(string searchString)
         {
@@ -60,6 +61,7 @@ namespace GestionDesProduits.Controllers
 
             return View(produits);
         }
+        [Authorize(Roles = "Admin")]
         //[Authorize(Roles ="SuperAdmin")]
         // GET: Produits/Create
         public IActionResult Create()
@@ -74,7 +76,7 @@ namespace GestionDesProduits.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        
         public async Task<IActionResult> Create([Bind("Id,ImageUrl,NomProduit,MagasinId,CategorieId,DescriptionStock,DateDebutPromo,DateFinPromo,prixProduit,prixProduitEnPromo")] Produits produits)
         {
             
@@ -105,6 +107,7 @@ namespace GestionDesProduits.Controllers
         }
 
         // GET: Produits/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Produits == null)
@@ -177,6 +180,7 @@ namespace GestionDesProduits.Controllers
         }
 
         // GET: Produits/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Produits == null)

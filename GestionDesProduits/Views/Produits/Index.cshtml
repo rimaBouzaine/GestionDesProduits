@@ -4,15 +4,56 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-<form class="form-inline my-2 my-lg-0" asp-controller="Produits" asp-action="Filter" style="padding-right: 25px;">
-    <div class="col">
-        <input name="searchString" type="text" class="form-control" placeholder="chercher un produit spécifique" aria-label="Recipient's username" aria-describedby="button-addon2">
+
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+        {
+            <p>
+                <a class="btn btn-outline-primary" asp-action="Create">Create New</a>
+            </p>
+        }   
+            <form class="form-inline my-2 my-lg-0" asp-controller="Produits" asp-action="Filter" style="padding-right: 25px; ">
+            <div class="col">
+                    <input name="searchString" type="text" class="form-control" placeholder="chercher un produit spécifique" aria-label="Recipient's username" aria-describedby="button-addon2">
+                </div>
+            <div class="col">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">chercher<i class="bi bi-search"></i></button>
+                </div>
+            </form>
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            <div class="col mb-5" >
+                @foreach (var item in Model) {
+                <div class="card h-50">
+                    <!-- Product image-->
+                        <img src="@item.ImageUrl" class="card-img-top"  alt="...">
+                    <!-- Product details-->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <!-- Product name-->
+                                <h5 class="fw-bolder">@Html.DisplayFor(modelItem => item.NomProduit)</h5>
+                            <!-- Product price-->
+                            @Html.DisplayFor(modelItem => item.prixProduit)
+                                @Html.DisplayFor(modelItem => item.prixProduitEnPromo)
+                        </div>
+                    </div>
+                    <!-- Product actions-->
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center">
+                                <a asp-action="Details" class="btn btn-outline-dark mt-auto" asp-route-id="@item.Id">Details</a>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
     </div>
-    <div class="col">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">chercher<i class="bi bi-search"></i></button>
-    </div>
-</form>
+</section>
+
+
+
+
+<!--*********************************************************************************************************************************************-->
  @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                                     {
 <p>
@@ -83,11 +124,16 @@
                 @Html.DisplayFor(modelItem => item.prixProduitEnPromo)
             </td>
                 <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
 
-                  
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id"> Delete </a>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <p>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id"> Delete </a>
+                        </p>
+                    }
+                   
                  
                 </td>
         </tr>

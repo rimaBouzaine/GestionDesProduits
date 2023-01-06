@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GestionDesProduits.Data;
 using GestionDesProduits.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace GestionDesProduits.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
